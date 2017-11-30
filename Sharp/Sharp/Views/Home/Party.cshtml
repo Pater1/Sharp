@@ -1,0 +1,14 @@
+﻿@model SharpStreamServer.PartyServer
+
+<h1>
+    There should be something in the console!
+</h1>
+
+<div style="display: none;">
+    <div id="data-key">
+        @Model._Key
+    </div>
+    @Html.ActionLink("ALink", "PullChunk", "API")
+</div>
+
+<script src="~/tsScripts/compiled/StreamListener.js"></script>
