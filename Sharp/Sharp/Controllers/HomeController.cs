@@ -21,7 +21,7 @@ namespace Sharp.Controllers
             id = PartyTracker.StartParty();
             ps = PartyTracker.GetByKey(id.Value);
 
-            string[] strs = Directory.GetFiles(@"E:\Neumont\C#\Pro150\Sharp\SharpStreamHost\SharpStreamHost_Console\TestFiles\");
+            string[] strs = Directory.GetFiles(@"C:\Users\Donaven Vandeveer\Desktop\Sharp\Sharp\SharpStreamHost\SharpStreamHost_Console\TestFiles");
             string sng = strs[(new Random()).Next(0, strs.Length)];
 
             PartyHost host = new PartyHost(sng, ps);
