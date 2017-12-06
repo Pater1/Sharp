@@ -9,37 +9,41 @@ using Newtonsoft.Json;
 namespace Sharp {
     public static class PartyTracker {
         #region All this should eventually be put on disk
-        public static List<long> keys { get; private set; } = new List<long>();
-        private static Dictionary<long, PartyServer> directory = new Dictionary<long, PartyServer>();
+        private static Dictionary<string, PartyServer> directory = new Dictionary<string, PartyServer>();
         #endregion
 
-        public static PartyServer GetByKey(long partyKey) {
+        public static PartyServer GetByKey(string partyKey) {
             if (directory.ContainsKey(partyKey)) {
                 return directory[partyKey];
             }
             return null;
         }
 
+        public static List<String> Keys = new List<string>();
         private static readonly RNGCryptoServiceProvider rnjesus = new RNGCryptoServiceProvider();
         private const int bytesPerLong = 8; //bytes in a long
-        public static long StartParty() {
-            byte[] keyRaw = new byte[bytesPerLong];
-            long key = 0;
-            do {
-                rnjesus.GetBytes(keyRaw);
-                key = ConcantonateBytes(keyRaw);
-            } while (keys.Contains(key)); //Makes absolutely sure no keys are reused (though that should never happen anyway)
+        public static void StartParty(string username) {
+            //byte[] keyRaw = new byte[bytesPerLong];
+            //long key = 0;
+            //do {
+            //    rnjesus.GetBytes(keyRaw);
+            //    key = ConcantonateBytes(keyRaw);
+            //} while (keys.Contains(key)); //Makes absolutely sure no keys are reused (though that should never happen anyway)
 
-            PartyServer p = new PartyServer(key);
 
-            keys.Add(key);
-            directory.Add(key, p);
+            if(directory.ContainsKey(username))
+            {
+                directory.Remove(username);
+            }
 
-            return key;
+            PartyServer p = new PartyServer(username);
+            Keys.Add(username);
+
+            directory.Add(username, p);
         }
 
         public static void Despose(PartyServer of) {
-            keys.Remove(of._Key);
+            //keys.Remove(of._Key);
             directory.Remove(of._Key);
         }
 

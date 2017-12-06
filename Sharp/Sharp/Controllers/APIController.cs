@@ -19,18 +19,18 @@ namespace Sharp.Controllers {
             };
         }
 
-        public string PullChunk(long? partyKey, int? samplesRequested, int? channelCount) {
-            if (!partyKey.HasValue || !samplesRequested.HasValue || !channelCount.HasValue) {
+        public string PullChunk(string partyKey, int? samplesRequested, int? channelCount) {
+            if (string.IsNullOrEmpty(partyKey) || !samplesRequested.HasValue || !channelCount.HasValue) {
                 return new BoomBox();
             }
-            return PartyTracker.GetByKey(partyKey.Value).Pull(samplesRequested.Value, channelCount.Value);
+            return PartyTracker.GetByKey(partyKey).Pull(samplesRequested.Value, channelCount.Value);
         }
 
-        public string PullFormat(long? partyKey) {
-            if (!partyKey.HasValue) {
+        public string PullFormat(string partyKey) {
+            if (string.IsNullOrEmpty(partyKey)) {
                 return "{}";
             }
-            return JsonConvert.SerializeObject(PartyTracker.GetByKey(partyKey.Value).WaveFormat);
+            return JsonConvert.SerializeObject(PartyTracker.GetByKey(partyKey).WaveFormat);
         }
     }
 }

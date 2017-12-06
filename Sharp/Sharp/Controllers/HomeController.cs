@@ -16,40 +16,22 @@ namespace Sharp.Controllers
             return View();
         }
 
-        public static PartyServer ps;
-        public ActionResult Party(long? id) {//id = partyKey
-            id = PartyTracker.StartParty();
-            ps = PartyTracker.GetByKey(id.Value);
 
-            
+        public ActionResult CreateParty()
+        { 
+            PartyTracker.StartParty(User.Identity.Name); 
 
-            string[] strs = Directory.GetFiles(Server.MapPath("/TestFiles"));
-            string sng = strs[(new Random()).Next(0, strs.Length)];
-
-            PartyHost host = new PartyHost(sng, ps);
-
-            if ( !id.HasValue                             //didn't ask for a party
-              || !PartyTracker.keys.Contains(id.Value)      //asked for a party that doesn't exist
-            ) {
-                //return 'browse parties' view
-                return RedirectToAction("Index");
-            } else {
-                return View(ps);
-            }
+            return View("Party", PartyTracker.GetByKey(User.Identity.Name));
         }
 
-        public ActionResult NewParty() {//id = partyKey
-            long id = PartyTracker.StartParty();
-            
-            //return 'browse parties' view
-            return RedirectToAction("Index", id);
-        }
-
-        public ActionResult Contact()
+        public ActionResult Party(string id)
         {
-            ViewBag.Message = "Your contact page.";
+            if(PartyTracker.GetByKey(id) == null)
+            {
+                return View("Index");
+            }
 
-            return View();
+            return View("Party", PartyTracker.GetByKey(id));
         }
     }
 }

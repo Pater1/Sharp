@@ -30,11 +30,11 @@ namespace SharpStreamServer {
         private void ServiceStream(object o = null) {}
 
         [JsonIgnore]
-        public long _Key { get; }
+        public String _Key { get; }
         
         private CircularSampleBuffer buffer;
 
-        public PartyServer(long key) {
+        public PartyServer(String key) {
             _Key = key;
             buffer = new CircularSampleBuffer(44100 * 60 * 5);//5min of CD-quality audio
             ThreadPool.QueueUserWorkItem(ServiceStream);

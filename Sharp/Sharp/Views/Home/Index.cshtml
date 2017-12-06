@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>
-            @foreach(long key in PartyTracker.keys) {
+            @foreach(string key in PartyTracker.Keys) {
                 <a href="/Home/Party/@key">@key.ToString()</a>
             }
         </p>
