@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.logoClass {
+    margin-top: 10px;
+}
+
+.playerClass {
+    margin-top: 40px;
+    margin-left: 50px;
+    width: 400px;
+}

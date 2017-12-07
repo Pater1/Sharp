@@ -206,8 +206,10 @@
     <Compile Include="TrackedParty.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\albumart.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\FinalSharp.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -230,6 +232,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="TestFiles\02_Peace_Sign.mp3" />
     <Content Include="TestFiles\Agnus_Dei-_Magna_Canta[Mp3Converter.net].mp3" />
     <Content Include="TestFiles\Amon_Amarth_-_Free_Will_Sacrifice[Mp3Converter.net].mp3" />
     <Content Include="TestFiles\Another_Irish_Drinking_Song_by_Da_Vincis_Notebook[Mp3Converter.net].mp3" />
