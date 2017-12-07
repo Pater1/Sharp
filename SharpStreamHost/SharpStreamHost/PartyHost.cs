@@ -16,7 +16,7 @@ using SharpStreamServer;
 using SharpStreamExtentions;
 
 namespace SharpStreamHost {
-    public class PartyHost {
+    public class PartyHost: IDisposable {
         //private volatile SampleToWaveProvider byteConverter;
         private volatile ISampleProvider source;
         public ISampleProvider Source {
@@ -30,29 +30,35 @@ namespace SharpStreamHost {
         
         private volatile float[] buffer;
         private PartyServer server;
+
+        private bool service = true;
         
         private void PushStream(object o = null) {
-            //while (true) {
-                if (buffer != null) {
-                    int size = source.Read(buffer, 0, buffer.Length);
-                    float[] sizeAdjustedBuffer = buffer.Resize(size);
-                    //string data = sizeAdjustedBuffer.EncodeSamples();
-                    //server.Push(data);
+            if (buffer != null) {
+                int size = source.Read(buffer, 0, buffer.Length);
+                float[] sizeAdjustedBuffer = buffer.Resize(size);
+                //string data = sizeAdjustedBuffer.EncodeSamples();
+                //server.Push(data);
 
-                    bool full = server.Push(sizeAdjustedBuffer);
+                bool full = server.Push(sizeAdjustedBuffer);
 
-                    double d = (double)sizeAdjustedBuffer.Length / (source.WaveFormat.AverageBytesPerSecond/4);
-                    double e = d * 1000;
-                    double f = e - 0;
-                    int delay = (int)f;
-                    delay = delay < 0 ? 0 : delay;
-                    if (full) {
-                        Thread.Sleep(delay);
-                    }
+                double d = (double)sizeAdjustedBuffer.Length / (source.WaveFormat.AverageBytesPerSecond/4);
+                double e = d * 1000;
+                double f = e - 0;
+                int delay = (int)f;
+                delay = delay < 0 ? 0 : delay;
+                if (full) {
+                    Thread.Sleep(delay);
                 }
-            //}
+            }
 
-            ThreadPool.QueueUserWorkItem(PushStream);
+            if (service) {
+                ThreadPool.QueueUserWorkItem(PushStream);
+            }
+        }
+
+        public void Dispose() {
+            service = false;
         }
 
         public PartyHost(){
@@ -67,5 +73,7 @@ namespace SharpStreamHost {
             this.server = server;
             server.WaveFormat = source.WaveFormat;
         }
+
+
     }
 }
