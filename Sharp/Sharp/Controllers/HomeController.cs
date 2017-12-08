@@ -34,9 +34,9 @@ namespace Sharp.Controllers
             return View("Party", PartyTracker.GetByKey(id));
         }
 
-        public ActionResult StopParty()
+        public ActionResult StopParty(string username)
         {
-            PartyTracker.DesposeOf(User.Identity.Name);
+            PartyTracker.DesposeOf(username);
             return View("Index");
         }
     }
