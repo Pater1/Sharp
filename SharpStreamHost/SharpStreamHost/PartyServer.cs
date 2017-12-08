@@ -36,7 +36,7 @@ namespace SharpStreamServer {
             buffer = new CircularSampleBuffer(44100 * 60 * 5);//5min of CD-quality audio
             ThreadPool.QueueUserWorkItem(ServiceStream);
         }
-
+        
         public bool Push(float[] data) {
             buffer.Write(data, 0, data.Length);
             return buffer.IsFull(44100 * 10);
@@ -59,7 +59,11 @@ namespace SharpStreamServer {
             }
             return cnt;
         }
-        public BoomBox Pull(int sampleCount, int channelCount = 1, bool getFormat = true) {
+        public BoomBox Pull(int sampleCount, int channelCount = 1, int? readHead = null, bool getFormat = true) {
+            if(readHead != null) {
+                buffer.readPosition = readHead.Value;
+            }
+
             BoomBox b = new BoomBox(sampleCount) {
                 RequestWaveFormat = getFormat
             };
@@ -79,6 +83,8 @@ namespace SharpStreamServer {
             //}
 
             b.Succeeded = true;
+
+            b.ReadPosition = buffer.readPosition;
 
             return b;
         }

@@ -118,12 +118,14 @@ var AudioStream = (function () {
 var key = document.getElementById('data-key').innerText.replace(/\s/g, '');
 var minSample = 75000;
 var channels = 2;
+var readHead = 0;
 var fetcher = new AudioFetcher(PullSongChunk, 10);
 var stream = new AudioStream(fetcher);
 function ProccessSongChunk(chunk) {
     if (chunk == null || chunk.Format == null || chunk.AudioChunk == null || chunk.AudioChunk.length <= 0) {
         return null;
     }
+    readHead = chunk.ReadPosition;
     var audio = context.createBuffer(chunk.Format.Channels, chunk.AudioChunk.length / chunk.Format.Channels, chunk.Format.SampleRate);
     for (var i = 0; i < chunk.AudioChunk.length; i++) {
         var c = i % audio.numberOfChannels;
@@ -134,7 +136,7 @@ function ProccessSongChunk(chunk) {
 }
 function PullSongChunk(callback) {
     var xmlHttp = new XMLHttpRequest();
-    var url = "/API/PullChunk/" + key + "/" + minSample + "/" + channels;
+    var url = "/API/PullChunk/" + key + "/" + minSample + "/" + channels + "/" + readHead;
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             var ret = JSON.parse(xmlHttp.responseText);
