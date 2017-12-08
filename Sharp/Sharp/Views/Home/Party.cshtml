@@ -10,7 +10,8 @@
     @Html.ActionLink("ALink", "PullChunk", "API")
 </div>
 
-@using(Html.BeginForm("AddSource", "API", FormMethod.Post, new { enctype="multipart/form-data"}))
+@if(User.Identity.Name == Model._Key)
+{@using(Html.BeginForm("AddSource", "API", FormMethod.Post, new { enctype="multipart/form-data"}))
 {
 
     <div>  
@@ -20,6 +21,5 @@
    
         @ViewBag.Message
     </div>
-}  
-
-<script src="~/tsScripts/compiled/StreamListener.js"></script>
+@Html.ActionLink("Stop Party", "StopParty", new { username = User.Identity.Name })
+}  <script src="~/tsScripts/compiled/StreamListener.js"></script>

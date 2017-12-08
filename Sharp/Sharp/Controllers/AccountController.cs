@@ -391,7 +391,7 @@ namespace Sharp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            
+            PartyTracker.DesposeOf(User.Identity.Name);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
