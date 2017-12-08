@@ -33,10 +33,15 @@ namespace Sharp {
 
             if(directory.ContainsKey(username))
             {
+                PartyTracker.GetByKey
                 directory.Remove(username);
             }
 
             PartyServer p = new PartyServer(username);
+            if(Keys.Contains(username))
+            {
+                Keys.Remove(username);
+            }
             Keys.Add(username);
 
             directory.Add(username, p);
