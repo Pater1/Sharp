@@ -20,11 +20,11 @@ namespace Sharp.Controllers {
             };
         }
 
-        public string PullChunk(string partyKey, int? samplesRequested, int? channelCount) {
+        public string PullChunk(string partyKey, int? samplesRequested, int? channelCount, int? readHead) {
             if (string.IsNullOrEmpty(partyKey) || !samplesRequested.HasValue || !channelCount.HasValue) {
                 return new BoomBox();
             }
-            return PartyTracker.GetByKey(partyKey).Pull(samplesRequested.Value, channelCount.Value);
+            return PartyTracker.GetByKey(partyKey).Pull(samplesRequested.Value, channelCount.Value, readHead);
         }
 
         public string PullFormat(string partyKey) {

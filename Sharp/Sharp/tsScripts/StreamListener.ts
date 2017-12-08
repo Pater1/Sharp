@@ -137,29 +137,13 @@ class AudioStream {
             //this.Drains[i + 1].buffer = this.SubDivide(this.Drains[k], this.Drains[i]);
         });
     }
-
-    //Subdivide(ld: AudioBufferSourceNode, nw: AudioBufferSourceNode): AudioBuffer {
-    //    let audio: AudioBuffer = context.createBuffer(
-    //        ld.channelCount,
-    //        ld.buffer.length,
-    //        ld.buffer.sampleRate
-    //    );
-
-    //    for (let i: number = 0; i < chunk.AudioChunk.length; i++) {
-    //        let c: number = i % audio.numberOfChannels;
-    //        let l: number = Math.floor(i / audio.numberOfChannels);
-
-    //        audio.getChannelData(c)[l] = chunk.AudioChunk[i];
-    //    }
-
-    //    return audio;
-    //}
 }
 
 let key: string = document.getElementById('data-key').innerText.replace(/\s/g, '');
 
 let minSample: number = 75000;
 let channels: number = 2;
+let readHead: number = 0;
 let fetcher: AudioFetcher = new AudioFetcher(PullSongChunk, 10);
 
 let stream: AudioStream = new AudioStream(fetcher);
@@ -169,6 +153,7 @@ function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
     if (chunk == null || chunk.Format == null || chunk.AudioChunk == null || chunk.AudioChunk.length <= 0) {
         return null;
     }
+    readHead = chunk.ReadPosition;
     let audio: AudioBuffer = context.createBuffer(
         chunk.Format.Channels,
         chunk.AudioChunk.length / chunk.Format.Channels,
@@ -187,7 +172,7 @@ function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
 
 function PullSongChunk(callback: (AudioBuffer) => void) {
     let xmlHttp: XMLHttpRequest = new XMLHttpRequest();
-    let url: string = "/API/PullChunk/" + key + "/" + minSample + "/" + channels;
+    let url: string = "/API/PullChunk/" + key + "/" + minSample + "/" + channels + "/" + readHead;
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             let ret: BoomBox = JSON.parse(xmlHttp.responseText);

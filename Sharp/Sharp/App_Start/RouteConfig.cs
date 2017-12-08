@@ -15,7 +15,7 @@ namespace Sharp
 
             routes.MapRoute(
                 name: "API_PullChunk",
-                url: "API/PullChunk/{partyKey}/{samplesRequested}/{channelCount}",
+                url: "API/PullChunk/{partyKey}/{samplesRequested}/{channelCount}/{readHead}",
                 defaults: new { controller = "API", action = "PullChunk" }
             );
             routes.MapRoute(
