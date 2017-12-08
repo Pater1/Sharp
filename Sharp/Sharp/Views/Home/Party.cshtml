@@ -10,8 +10,16 @@
     @Html.ActionLink("ALink", "PullChunk", "API")
 </div>
 
-<script src="~/tsScripts/compiled/StreamListener.js"></script>
 @if(User.Identity.Name == Model._Key)
+{@using(Html.BeginForm("AddSource", "API", FormMethod.Post, new { enctype="multipart/form-data"}))
 {
-    @Html.ActionLink("Stop Party", "StopParty", new { username = User.Identity.Name })
-}
+
+    <div>  
+        @Html.TextBox("file", "", new {  type= "file"}) <br />  
+        @Html.Hidden("partyKey", @Model._Key)
+        <input type="submit" value="Upload" />  
+   
+        @ViewBag.Message
+    </div>
+@Html.ActionLink("Stop Party", "StopParty", new { username = User.Identity.Name })
+}  <script src="~/tsScripts/compiled/StreamListener.js"></script>

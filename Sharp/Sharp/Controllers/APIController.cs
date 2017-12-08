@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using NAudio.Wave;
 using SharpStreamHost;
+using System.IO;
 
 namespace Sharp.Controllers {
     public class APIController : Controller {
@@ -31,6 +32,24 @@ namespace Sharp.Controllers {
                 return "{}";
             }
             return JsonConvert.SerializeObject(PartyTracker.GetByKey(partyKey).WaveFormat);
+        }
+
+        [HttpPost]
+        public ActionResult AddSource(string partyKey, HttpPostedFileBase file)  
+        {
+            string _path = null;
+            try {
+                if (file.ContentLength > 0) {
+                    string _FileName = Path.GetFileName(file.FileName);
+                    _path = Path.Combine(Server.MapPath("~/UploadCache"), _FileName);
+                    file.SaveAs(_path);
+                }
+                ViewBag.Message = "File Uploaded Successfully!!";
+            } catch {
+                ViewBag.Message = "File upload failed!!";
+            }
+            if(_path != null)PartyTracker.GetByKey(partyKey)?.TrackedHost?.AddSource(_path);
+            return RedirectToAction("Party", "Home", new { id = partyKey });
         }
     }
 }

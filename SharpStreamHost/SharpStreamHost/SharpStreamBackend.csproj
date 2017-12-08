@@ -61,6 +61,7 @@
     <Compile Include="PartyHost.cs" />
     <Compile Include="PartyServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueableParty.cs" />
     <Compile Include="SampleWaveProvider.cs" />
   </ItemGroup>
   <ItemGroup>

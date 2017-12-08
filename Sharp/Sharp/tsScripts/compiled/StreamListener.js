@@ -28,7 +28,9 @@ var AudioFetcher = (function () {
         return this.Buffer[0] != null;
     };
     AudioFetcher.prototype.Push = function (toAdd, chain) {
-        this.Buffer.push(toAdd);
+        if (toAdd != null) {
+            this.Buffer.push(toAdd);
+        }
         if (chain) {
             chain(this.Buffer.pop());
             this.Pull();
@@ -119,6 +121,9 @@ var channels = 2;
 var fetcher = new AudioFetcher(PullSongChunk, 10);
 var stream = new AudioStream(fetcher);
 function ProccessSongChunk(chunk) {
+    if (chunk == null || chunk.Format == null || chunk.AudioChunk == null || chunk.AudioChunk.length <= 0) {
+        return null;
+    }
     var audio = context.createBuffer(chunk.Format.Channels, chunk.AudioChunk.length / chunk.Format.Channels, chunk.Format.SampleRate);
     for (var i = 0; i < chunk.AudioChunk.length; i++) {
         var c = i % audio.numberOfChannels;
@@ -127,19 +132,6 @@ function ProccessSongChunk(chunk) {
     }
     return audio;
 }
-//function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
-//    let audio: AudioBuffer = context.createBuffer(
-//        chunk.Format.Channels,
-//        chunk.AudioChunk.length / chunk.Format.Channels,
-//        chunk.Format.SampleRate
-//    );
-//    channels = chunk.Format.Channels;
-//    for (let i: number = 0; i < audio.numberOfChannels; i++) {
-//        let ar: Float32Array = new Float32Array(chunk.AudioChunk[i]);
-//        audio.copyToChannel(ar, i);
-//    }
-//    return audio;
-//}
 function PullSongChunk(callback) {
     var xmlHttp = new XMLHttpRequest();
     var url = "/API/PullChunk/" + key + "/" + minSample + "/" + channels;

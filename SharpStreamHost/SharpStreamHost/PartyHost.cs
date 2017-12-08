@@ -17,7 +17,6 @@ using SharpStreamExtentions;
 
 namespace SharpStreamHost {
     public class PartyHost: IDisposable {
-        //private volatile SampleToWaveProvider byteConverter;
         private volatile ISampleProvider source;
         public ISampleProvider Source {
             get {
@@ -25,32 +24,62 @@ namespace SharpStreamHost {
             }
             set {
                 source = value;
-            }
-        }
-        
-        private volatile float[] buffer;
-        private PartyServer server;
-
-        private bool service = true;
-        
-        private void PushStream(object o = null) {
-            if (buffer != null) {
-                int size = source.Read(buffer, 0, buffer.Length);
-                float[] sizeAdjustedBuffer = buffer.Resize(size);
-                //string data = sizeAdjustedBuffer.EncodeSamples();
-                //server.Push(data);
-
-                bool full = server.Push(sizeAdjustedBuffer);
-
-                double d = (double)sizeAdjustedBuffer.Length / (source.WaveFormat.AverageBytesPerSecond/4);
-                double e = d * 1000;
-                double f = e - 0;
-                int delay = (int)f;
-                delay = delay < 0 ? 0 : delay;
-                if (full) {
-                    Thread.Sleep(delay);
+                if(server != null) {
+                    server.WaveFormat = Source.WaveFormat;
                 }
             }
+        }
+
+
+        private volatile float[] buffer;
+        private PartyServer server;
+        public PartyServer Server {
+            get {
+                return server;
+            }
+            set {
+                server = value;
+                if (Source != null) {
+                    server.WaveFormat = Source.WaveFormat;
+                }
+            }
+        }
+        public virtual void AddSource(string path) { }
+        public virtual void AddSource(ISampleProvider source) { }
+
+        private bool service = true;
+
+        protected delegate void ServiceStream();
+        protected event ServiceStream OnPush, OnEmpty;
+        private void PushStream(object o = null) {
+            if (buffer != null) {
+                if(OnPush != null) OnPush();
+
+                if (source == null) {
+                    if (OnEmpty != null) OnEmpty();
+                } else {
+                    int size = source.Read(buffer, 0, buffer.Length);
+                    if (buffer.Length > 0 && size <= 0) {
+                        if (OnEmpty != null) OnEmpty();
+                    } else {
+                        float[] sizeAdjustedBuffer = buffer.Resize(size);
+
+                        bool full = Server.Push(sizeAdjustedBuffer);
+
+                        double d = (double)sizeAdjustedBuffer.Length / (source.WaveFormat.AverageBytesPerSecond / 4);
+                        double e = d * 1000;
+                        double f = e - 0;
+                        int delay = (int)f;
+                        delay = delay < 0 ? 0 : delay;
+                        if (full) {
+                            Thread.Sleep(delay);
+                        }
+                    }
+                }
+            } else {
+                buffer = new float[1000];
+            }
+
 
             if (service) {
                 ThreadPool.QueueUserWorkItem(PushStream);
@@ -65,15 +94,13 @@ namespace SharpStreamHost {
             ThreadPool.QueueUserWorkItem(PushStream);
         }
         public PartyHost(string file, PartyServer server) : this(new AudioFileReader(file), server) {
-            //buffer = new float[server.chunkSize];
             buffer = new float[1000];
         }
         public PartyHost(ISampleProvider _source, PartyServer server): this() {
             Source = _source;
-            this.server = server;
+            this.Server = server;
             server.WaveFormat = source.WaveFormat;
         }
-
-
+        
     }
 }

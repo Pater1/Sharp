@@ -234,40 +234,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="TestFiles\Agnus_Dei-_Magna_Canta[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Amon_Amarth_-_Free_Will_Sacrifice[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Another_Irish_Drinking_Song_by_Da_Vincis_Notebook[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Arrowsic[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Beethoven_-_Moonlight_Sonata_FULL[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\BENNY_GOODMAN_-_Minnies_in_the_Money_-_1943_big_band_swing_jazz_jitterbug_dancers[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Bristlecone[Mp3Converter.net].aac" />
-    <Content Include="TestFiles\Complete_History_Of_The_Soviet_Union_Arranged_To_The_Melody_Of_Tetris[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Daler_Mehndi_-_Tunak_Tunak_Tun_Video[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Dragonforce_-_Through_the_Fire_and_FlamesLyrics[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Dr_Horribles_Sing-Along_Blog-_Brand_New_Day_wlyrics[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Eisbrecher_-_Willkommen_Im_Nichts[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Final_Fantasy_X_-_Battle_Theme_Acapella[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Garth_Brooks_The_River_Live_1992[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Great_Big_Sea_-_Ordinary_Day[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Hey_Pachuco-The_Mask_Soundtrack[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Jake_Shimabukuro_Hallelujah[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Jump_Up_Super_Star_Full_Ver_Official_iTunes_Release_Super_Mario_Odyssey_Main_Theme[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Katyusa_Катюша_-_Valeria_Kurnushkina_Red_Army_Choir_2014[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Kirby_Gourmet_RaceTetris_ASuper_Mario_World_Ending_-_Mariachi_Medley_5000_SUBSCRIBERS[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Loituma_-_Ievan_Polkka_Evas_Polka1996[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Ludwig_Van_Beethovens_5th_Symphony_in_C_Minor_Full[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Megurine_Luka_Akahitoha_English_Subs[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Omen_-_Guilhem_Desq_Hurdy_Gurdy[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\PEPE-_Shadilay_Italian_Version[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\P_D_Q_Bach_Peter_Schickele_1712_Overture[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Rondo_Alla_Turca-_Mozart[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Savant_-_Melody_Circus[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Scale_of_the_Universe[Mp3Converter.net].m4a" />
-    <Content Include="TestFiles\Stevie_Wonder_-_I_Just_Called_To_Say_I_Love_You[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\The_Bubbledrone_Mega_Man_2_–_Bubble_Man_Remix_by_Doni_Cordoni[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\Tuvan_Throat_Singing[Mp3Converter.net].mp3" />
-    <Content Include="TestFiles\World 1 - Yoshis New Island OST.mp3" />
-    <Content Include="TestFiles\♪_Diggy_Diggy_Hole[Mp3Converter.net].mp3" />
     <Content Include="tsScripts\compiled\StreamListener.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -309,6 +275,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="TestFiles\" />
+    <Folder Include="UploadCache\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
