@@ -49,6 +49,10 @@ namespace Sharp {
                 directory[username].Dispose();
                 directory.Remove(username);
             }
+            if(Keys.Contains(username))
+            {
+                Keys.Remove(username);
+            }
         }
         
     }
