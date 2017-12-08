@@ -5,6 +5,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using Newtonsoft.Json;
+using SharpStreamHost;
+using System.IO;
+using Sharp.Controllers;
 
 namespace Sharp {
     public static class PartyTracker {
@@ -20,12 +23,19 @@ namespace Sharp {
             return null;
         }
         
-        private const int bytesPerLong = 8; //bytes in a long
         public static void StartParty(string username) {
             DesposeOf(username);
 
+            QueueableParty ph = new QueueableParty();
             PartyServer p = new PartyServer(username);
-            if(Keys.Contains(username))
+            p.OnDispose += ph.Dispose;
+            p.TrackedHost = ph;
+            ph.Server = p;
+
+            //string[] strs = Directory.GetFiles(HttpContext.Current.Server.MapPath(@"~/TestFiles/"));
+            //ph.AddSource(strs);
+
+            if (Keys.Contains(username))
             {
                 Keys.Remove(username);
             }
@@ -40,16 +50,6 @@ namespace Sharp {
                 directory.Remove(username);
             }
         }
-
-        //private static long ConcantonateBytes(byte[] bytes) {
-        //    Array.Resize(ref bytes, bytesPerLong);
-        //    long ret = 0;
-        //    for (int i = 0; i < bytes.Length; i++) {
-        //        unchecked {
-        //            ret |= ((long)bytes[i]) << (8 * i);
-        //        }
-        //    }
-        //    return ret;
-        //}
+        
     }
 }

@@ -43,7 +43,9 @@ class AudioFetcher {
     }
     private Fetch: (AudioBuffer) => void;
     private Push(toAdd: AudioBuffer, chain?: (AudioBuffer) => void) {
-        this.Buffer.push(toAdd);
+        if (toAdd != null) {
+            this.Buffer.push(toAdd);
+        }
         if (chain) {
             chain(this.Buffer.pop());
             this.Pull();
@@ -164,6 +166,9 @@ let stream: AudioStream = new AudioStream(fetcher);
 
 
 function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
+    if (chunk == null || chunk.Format == null || chunk.AudioChunk == null || chunk.AudioChunk.length <= 0) {
+        return null;
+    }
     let audio: AudioBuffer = context.createBuffer(
         chunk.Format.Channels,
         chunk.AudioChunk.length / chunk.Format.Channels,
@@ -179,22 +184,6 @@ function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
 
     return audio;
 }
-//function ProccessSongChunk(chunk: BoomBox): AudioBuffer {
-//    let audio: AudioBuffer = context.createBuffer(
-//        chunk.Format.Channels,
-//        chunk.AudioChunk.length / chunk.Format.Channels,
-//        chunk.Format.SampleRate
-//    );
-
-//    channels = chunk.Format.Channels;
-
-//    for (let i: number = 0; i < audio.numberOfChannels; i++) {
-//        let ar: Float32Array = new Float32Array(chunk.AudioChunk[i]);
-//        audio.copyToChannel(ar, i);
-//    }
-
-//    return audio;
-//}
 
 function PullSongChunk(callback: (AudioBuffer) => void) {
     let xmlHttp: XMLHttpRequest = new XMLHttpRequest();

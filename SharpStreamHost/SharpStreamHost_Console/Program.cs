@@ -25,7 +25,7 @@ using System.IO;
 namespace SharpStreamHost_Console {
     class Program {
         static void Main(string[] args) {
-            PartyServer server = new PartyServer(10L);
+            PartyServer server = new PartyServer("");
 
             string[] strs = Directory.GetFiles(@"..\..\TestFiles\");
             string sng = strs[(new Random()).Next(0, strs.Length)];

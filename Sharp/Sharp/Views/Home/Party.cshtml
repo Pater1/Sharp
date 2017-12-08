@@ -10,4 +10,16 @@
     @Html.ActionLink("ALink", "PullChunk", "API")
 </div>
 
+@using(Html.BeginForm("AddSource", "API", FormMethod.Post, new { enctype="multipart/form-data"}))
+{
+
+    <div>  
+        @Html.TextBox("file", "", new {  type= "file"}) <br />  
+        @Html.Hidden("partyKey", @Model._Key)
+        <input type="submit" value="Upload" />  
+   
+        @ViewBag.Message
+    </div>
+}  
+
 <script src="~/tsScripts/compiled/StreamListener.js"></script>

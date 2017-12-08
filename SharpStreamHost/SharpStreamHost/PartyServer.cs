@@ -21,13 +21,14 @@ namespace SharpStreamServer {
             }
             set {
                 waveFormat = value;
-                //bufferedWaveProvider = new BufferedWaveProvider(waveFormat);
             }
         }
         
-        private void ServiceStream(object o = null) {}
-        
+        private void ServiceStream(object o = null) { }
+
         public String _Key { get; }
+        public PartyHost TrackedHost { get; set; }
+
         private CircularSampleBuffer buffer;
 
         public PartyServer(string key) {
@@ -70,23 +71,21 @@ namespace SharpStreamServer {
             return Pull(b);
         }
         public BoomBox Pull(BoomBox b) {
-            //buffer.readPosition = b.ReadPosition;
-
             int read = Pull(b.AudioChunk, 0);
             b.ReadPosition = buffer.readPosition;
 
-            if (b.RequestWaveFormat) {
+            //if (b.RequestWaveFormat) {
                 b.Format = WaveFormat;
-            }
+            //}
 
             b.Succeeded = true;
 
             return b;
         }
         
-        public event Action<PartyServer> OnDispose;
+        public event Action OnDispose;
         public void Dispose() {
-            OnDispose(this);
+            if(OnDispose != null) OnDispose();
         }
     }
 }
