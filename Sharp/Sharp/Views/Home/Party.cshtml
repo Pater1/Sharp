@@ -11,3 +11,7 @@
 </div>
 
 <script src="~/tsScripts/compiled/StreamListener.js"></script>
+@if(User.Identity.Name == Model._Key)
+{
+    @Html.ActionLink("Stop Party", "StopParty")
+}
