@@ -41,7 +41,11 @@ namespace Sharp.Controllers {
             try {
                 if (file.ContentLength > 0) {
                     string _FileName = Path.GetFileName(file.FileName);
-                    _path = Path.Combine(Server.MapPath("~/UploadCache"), _FileName);
+                    string _FolderPath = Server.MapPath("~/UploadCache");
+                    if (!Directory.Exists(_FolderPath)) {
+                        Directory.CreateDirectory(_FolderPath);
+                    }
+                    _path = Path.Combine(_FolderPath, _FileName);
                     file.SaveAs(_path);
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
