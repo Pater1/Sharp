@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -31,4 +32,23 @@ textarea {
     margin-top: 40px;
     margin-left: 50px;
     width: 400px;
+}
+
+.partyHost {
+    padding: 30px;
+    font-size: 20px;
+    color: black;
+}
+
+.userDiv {
+    width: 258px;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+.centerName {
+    width: 258px;
+    text-align: center;
+    vertical-align: central;
+    margin-bottom: 20px;
 }
