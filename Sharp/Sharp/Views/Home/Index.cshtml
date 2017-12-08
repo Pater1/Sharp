@@ -2,15 +2,21 @@
     ViewBag.Title = "Home Page";
 }
 
-
 <div class="row">
     <div class="col-md-4">
-        <h2>Party List</h2>
+        <h2>Current Parties</h2>
         <p>
-            @foreach(string key in PartyTracker.Keys) {
-                <a href="/Home/Party/@key">@key.ToString()</a>
+            @foreach(string key in PartyTracker.Keys)
+            {
+                <div class="userDiv">
+                    <img src="~/Content/albumart.png"width="256" />
+                    <br />
+                    <br />
+                    <p class="centerName">
+                        <a class="partyHost" href="/Home/Party/@key">@key.ToString()</a>
+                    </p>
+                </div>
             }
         </p>
     </div>
-    
 </div>
