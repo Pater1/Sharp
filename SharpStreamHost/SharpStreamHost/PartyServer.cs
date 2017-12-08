@@ -1,6 +1,5 @@
 ﻿using NAudio.Utils;
 using NAudio.Wave;
-using Newtonsoft.Json;
 using SharpStreamExtentions;
 using SharpStreamHost;
 using System;
@@ -26,15 +25,12 @@ namespace SharpStreamServer {
             }
         }
         
-        //public volatile BufferedWaveProvider bufferedWaveProvider;
         private void ServiceStream(object o = null) {}
-
-        [JsonIgnore]
-        public String _Key { get; }
         
+        public String _Key { get; }
         private CircularSampleBuffer buffer;
 
-        public PartyServer(String key) {
+        public PartyServer(string key) {
             _Key = key;
             buffer = new CircularSampleBuffer(44100 * 60 * 5);//5min of CD-quality audio
             ThreadPool.QueueUserWorkItem(ServiceStream);

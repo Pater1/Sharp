@@ -12,9 +12,7 @@ using SharpStreamHost;
 
 namespace SharpStreamClient
 {
-    public class PartyGuest {
-        //public const int defaultBuffer = 44100 * 10; //10 seconds of CD quality audio
-        
+    public class PartyGuest: IDisposable {
         private volatile IWavePlayer player;
         public IWavePlayer Player {
             get {
@@ -51,21 +49,24 @@ namespace SharpStreamClient
         private volatile bool listenable = false;
         private ulong currentChunk = 0;
 
+        private bool service = true;
+
         private void Listen(object o = null) {
-            while (true) {
-                if (listenable) {
-                    int l = server.Pull(bufferRaw, 0);
-                    while (Source.IsFull(bufferRaw.Length)) Thread.Sleep(100);
-                    if (l > 0) {
-                        Source.AddSamples(bufferRaw, 0, l);
-                        player.Play();
-                    }
+            if (listenable) {
+                int l = server.Pull(bufferRaw, 0);
+                while (Source.IsFull(bufferRaw.Length)) Thread.Sleep(100);
+                if (l > 0) {
+                    Source.AddSamples(bufferRaw, 0, l);
+                    player.Play();
                 }
+            }
+
+            if (service) {
+                ThreadPool.QueueUserWorkItem(Listen);
             }
         }
         PartyServer server;
         private PartyGuest() {}
-
         public PartyGuest(PartyServer server): this() {
             this.server = server;
             listenable = true;
@@ -76,6 +77,10 @@ namespace SharpStreamClient
             player.Init(Source);
 
             ThreadPool.QueueUserWorkItem(Listen);
+        }
+
+        public void Dispose() {
+            service = false;
         }
     }
 }
